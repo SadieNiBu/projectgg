@@ -43,6 +43,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
+  adapter: MongoDBAdapter(database.connection.getClient()),
   providers: [
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
