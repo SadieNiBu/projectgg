@@ -16,7 +16,9 @@ const Navbar = () => {
         <Menubar className="flex justify-between bg-[#0707074F] h-[60px] absolute w-[100%]">
             <MenubarMenu>
                 <MenubarTrigger className="leading-[38.4px] text-[32px] w-[164px] h-[38px] text-white pt-2">
+                    <a href="/">
                     ProjectGG
+                    </a>
                 </MenubarTrigger>
                 <MenubarTrigger className="w-[820px] h-[41px] rounded-lg pt-2">
                     <SearchBar />
