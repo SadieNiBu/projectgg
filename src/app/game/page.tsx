@@ -1,5 +1,5 @@
-import Link from "next/link";
 import '~/styles/game.css'
+import Link from "next/link";
 import Game from "~/components/game";
 import Review from "~/components/review";
 import { LatestPost } from "~/components/ui/post";

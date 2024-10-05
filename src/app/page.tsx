@@ -2,7 +2,7 @@ import "~/styles/home.css";
 import Link from "next/link";
 import Review from "~/components/review";
 import GameList from "~/components/game_list";
-import { LatestPost } from "~/components/post";
+import { LatestPost } from "~/components/ui/post";
 import { getServerAuthSession } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
 

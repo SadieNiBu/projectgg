@@ -2,7 +2,7 @@ import Link from "next/link";
 import "~/styles/profile.css";
 import PersonalReview from "~/components/personal_review";
 import GameList from "~/components/game_list";
-import { LatestPost } from "~/components/post";
+import { LatestPost } from "~/components/ui/post";
 import { getServerAuthSession } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
 import PersonalProfile from "~/components/personal_profile";
@@ -67,7 +67,7 @@ export default async function Home() {
             <div className="grid grid-rows-3 pl-[40px]">
               <p className="review_text">Reviews</p>
             </div>
-            <div className="pl-[50px] pt-[200px] h-[500px]">
+            <div className="pl-[40px] pt-[200px] h-[500px]">
               <PersonalReview />
               <PersonalReview />
             </div>
