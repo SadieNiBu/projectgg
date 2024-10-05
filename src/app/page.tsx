@@ -1,6 +1,6 @@
-import Link from "next/link";
-
 import "~/styles/home.css";
+import Link from "next/link";
+import Review from "~/components/review";
 import { LatestPost } from "~/components/post";
 import { getServerAuthSession } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
@@ -15,7 +15,7 @@ export default async function Home()
   return (
     <HydrateClient>
       <main>
-        <div className="relative h-64 w-full">
+        <div className="relative h-64 w-full z-[-99]">
           <img src="https://media.discordapp.net/attachments/1290909039017857046/1292050593258536960/sea-of-thieves-4.png?ex=67025362&is=670101e2&hm=1b85e6fc2030fc0d7bd0ac0e932062e62724ee58e2a02289a39223353aed55e4&=&format=webp&quality=lossless&width=2068&height=1164"
             alt="Sea of Thieves" className="w-full h-full object-cover">
           </img>
@@ -80,9 +80,15 @@ export default async function Home()
             </svg>
           </div>
           <div>
-            THREE
+            <p className="text-white font-[600] leading-[28.8px] text-[24px] pl-[120px] pt-[140px]">Activity</p>
+              <div className="grid grid-rows-3 pl-[80px]">
+                <Review />
+                <Review />
+                <Review />
+              </div>
           </div>
         </div>
+        <div className="h-[50px]" />
       </main>
     </HydrateClient>
   );
