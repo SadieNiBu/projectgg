@@ -43,8 +43,12 @@ export default async function Home() {
               <div>
                 <Game />
               </div>
-              <div>
-                
+              <div className='text-white font-[600] text-[24px] leading-[28.8px] pt-[20px] pl-[75px]'>
+               <p>Reviews</p>
+               <div>
+                  <Review />
+                  <PersonalReview />
+               </div>
               </div>
             </div>
           </div>
