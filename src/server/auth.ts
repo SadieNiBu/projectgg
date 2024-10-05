@@ -4,8 +4,11 @@ import {
   type NextAuthOptions,
 } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import { database } from "~/lib/mongodb";
 
 import { env } from "~/env";
+import User from "~/lib/models/User";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -34,6 +37,7 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
+  session: { strategy: "jwt" },
   callbacks: {
     session: ({ session, token }) => ({
       ...session,
@@ -43,11 +47,22 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
+  events: {
+    createUser: async ({ user }) => {
+      const dbUser = await User.findById(user.id);
+      if (!dbUser) return;
+      dbUser.following = [];
+      dbUser.reviews = [];
+      dbUser.games = [];
+      await dbUser.save();
+    },
+  },
+  adapter: MongoDBAdapter(database.connection.getClient()),
   providers: [
-    // DiscordProvider({
-    //   clientId: env.DISCORD_CLIENT_ID,
-    //   clientSecret: env.DISCORD_CLIENT_SECRET,
-    // }),
+    DiscordProvider({
+      clientId: env.AUTH_DISCORD_ID,
+      clientSecret: env.AUTH_DISCORD_SECRET,
+    }),
     /**
      * ...add more providers here.
      *
