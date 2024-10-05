@@ -1,17 +1,8 @@
 import { Schema, model, models, Model } from "mongoose";
 import { User } from "./User";
+import { type Review } from "~/lib/schemas/database";
 
-export type Review = {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  content: string;
-  user: User;
-  game: string;
-  rating: number;
-};
-
-const reviewSchema = new Schema({
+const reviewSchema = new Schema<Review>({
   id: String,
   createdAt: Date,
   updatedAt: Date,
@@ -20,10 +11,7 @@ const reviewSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  game: {
-    type: Schema.Types.ObjectId,
-    ref: "Game",
-  },
+  game: Number,
   rating: Number,
 });
 
