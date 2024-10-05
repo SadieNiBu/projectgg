@@ -1,25 +1,26 @@
 .game_pic {
     border-radius: 15px;
-    position: relative;
+    /* position: relative;
     left: calc(50% - 134px/2 - 310px);
-    top: 80px;
+    top: 80px; */
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
 .info_box {
-    display: flex;
+    /* display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     padding: 6px 0px;
-    gap: 10px;
-    isolation: isolate;
+    gap: 10px; */
 
-    position: absolute;
-    width: 190px;
-    height: 90px;
-    left: 1135px;
-    top: 565px;
+
+    /*position: absolute;*/
+    width: fit-content;
+    height: fit-content;
+    margin: 5px 5px;
+    /*left: 1135px;
+    top: 565px; */
 
     background: rgba(0, 0, 0, 0.22);
     border-radius: 10px;
