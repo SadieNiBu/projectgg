@@ -1,12 +1,13 @@
 import Link from "next/link";
-
 import { LatestPost } from "~/app/_components/post";
 import { getServerAuthSession } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
+import { database } from "~/lib/mongodb";
 
 export default async function Home() {
   const hello = await api.post.hello({ text: "from tRPC" });
   const session = await getServerAuthSession();
+  const data = await database.model("User").find();
 
   void api.post.getLatest.prefetch();
 
@@ -44,6 +45,9 @@ export default async function Home() {
           <div className="flex flex-col items-center gap-2">
             <p className="text-2xl text-white">
               {hello ? hello.greeting : "Loading tRPC query..."}
+            </p>
+            <p className="text-2xl text-white">
+              {data ? `Users: ${data.length}` : "Loading MongoDB query..."}
             </p>
 
             <div className="flex flex-col items-center justify-center gap-4">
