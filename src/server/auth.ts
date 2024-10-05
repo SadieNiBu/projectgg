@@ -37,6 +37,7 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
+  session: { strategy: "jwt" },
   callbacks: {
     session: ({ session, token }) => ({
       ...session,
@@ -59,8 +60,8 @@ export const authOptions: NextAuthOptions = {
   adapter: MongoDBAdapter(database.connection.getClient()),
   providers: [
     DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
+      clientId: env.AUTH_DISCORD_ID,
+      clientSecret: env.AUTH_DISCORD_SECRET,
     }),
     /**
      * ...add more providers here.
