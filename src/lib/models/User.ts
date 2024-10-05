@@ -6,7 +6,20 @@ const userSchema = new Schema({
   email: String,
   emailVerified: Date,
   image: String,
+  following: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
+  ],
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "reviews",
+    },
+  ],
+  games: [String],
 });
 
-const User = models.User || model("User", userSchema);
+const User = models.User || model("User", userSchema, "users");
 export default User;

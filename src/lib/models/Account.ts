@@ -15,5 +15,5 @@ const accountSchema = new Schema({
   session_state: String,
 });
 
-const Account = models.Account || model("Account", accountSchema);
+const Account = models.Account || model("Account", accountSchema, "accounts");
 export default Account;

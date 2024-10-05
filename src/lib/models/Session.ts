@@ -7,5 +7,5 @@ const sessionSchema = new Schema({
   userId: String,
 });
 
-const Session = models.Session || model("Session", sessionSchema);
+const Session = models.Session || model("Session", sessionSchema, "sessions");
 export default Session;

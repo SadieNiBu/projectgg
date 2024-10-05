@@ -8,5 +8,5 @@ const verificationTokenSchema = new Schema({
 
 const VerificationToken =
   models.VerificationToken ||
-  model("VerificationToken", verificationTokenSchema);
+  model("VerificationToken", verificationTokenSchema, "verificationTokens");
 export default VerificationToken;
