@@ -12,21 +12,18 @@ export const reviewSchema = z.object({
 
 export type Review = z.infer<typeof reviewSchema>;
 
-const baseUserSchema = z.object({
+const userSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string(),
   emailVerified: z.date().optional(),
   image: z.string().optional(),
-  reviews: z.array(reviewSchema),
+  following: z.array(z.string()),
+  reviews: z.array(z.string()),
   games: z.array(z.number()),
 });
 
-export type User = z.infer<typeof baseUserSchema> & { following: User[] };
-
-export const userSchema: z.ZodType<User> = baseUserSchema.extend({
-  following: z.lazy(() => userSchema.array()),
-});
+export type User = z.infer<typeof userSchema>;
 
 export const accountSchema = z.object({
   id: z.string(),
