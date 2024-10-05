@@ -4,8 +4,11 @@ import {
   type NextAuthOptions,
 } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import { database } from "~/lib/mongodb";
 
 import { env } from "~/env";
+import User from "~/lib/models/User";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -42,6 +45,15 @@ export const authOptions: NextAuthOptions = {
         id: token.sub,
       },
     }),
+  },
+  events: {
+    createUser: async ({ user }) => {
+      const dbUser = await User.findById(user.id);
+      dbUser.following = [];
+      dbUser.reviews = [];
+      dbUser.games = [];
+      await dbUser.save();
+    },
   },
   adapter: MongoDBAdapter(database.connection.getClient()),
   providers: [
