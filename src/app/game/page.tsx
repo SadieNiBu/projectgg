@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { LatestPost } from "~/app/components/post";
 import User from "~/lib/models/User";
 import { getServerAuthSession } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
