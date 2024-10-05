@@ -1,5 +1,6 @@
 import { postRouter } from "~/server/api/routers/post";
 import { databaseRouter } from "~/server/api/routers/database";
+import { igdbRouter } from "~/server/api/routers/igdb";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -10,6 +11,7 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 export const appRouter = createTRPCRouter({
   post: postRouter,
   database: databaseRouter,
+  igdb: igdbRouter,
 });
 
 // export type definition of API

@@ -11,6 +11,7 @@ import superjson from "superjson";
 import { ZodError } from "zod";
 
 import { getServerAuthSession } from "~/server/auth";
+import { env } from "~/env";
 
 /**
  * 1. CONTEXT
@@ -26,9 +27,17 @@ import { getServerAuthSession } from "~/server/auth";
  */
 export const createTRPCContext = async (opts: { headers: Headers }) => {
   const session = await getServerAuthSession();
+  const twitchAuthResponse = await fetch(
+    `https://id.twitch.tv/oauth2/token?client_id=${env.IGDB_CLIENT_ID}&client_secret=${env.IGDB_CLIENT_SECRET}&grant_type=client_credentials`,
+    {
+      method: "POST",
+    },
+  );
+  const authData = await twitchAuthResponse.json();
 
   return {
     session,
+    igdbAccessToken: authData.access_token,
     ...opts,
   };
 };
