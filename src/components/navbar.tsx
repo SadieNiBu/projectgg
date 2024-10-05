@@ -13,15 +13,15 @@ export function SearchBar() {
 
 const Navbar = () => {
     return (
-        <Menubar className="flex justify-between">
+        <Menubar className="flex justify-between bg-[#0707074F] h-[60px]">
             <MenubarMenu>
-                <MenubarTrigger className="leading-[38.4px] text-[32px] w-[164px] h-[38px] top-[6px] left-[13px] text-white">
+                <MenubarTrigger className="leading-[38.4px] text-[32px] w-[164px] h-[38px] text-white pt-2">
                     ProjectGG
                 </MenubarTrigger>
-                <MenubarTrigger className="w-[820px] h-[41px] top-[6px] left-[310px] rounded-lg">
+                <MenubarTrigger className="w-[820px] h-[41px] rounded-lg pt-2">
                     <SearchBar />
                 </MenubarTrigger>
-                <MenubarTrigger className="leading-[38.4px] text-[32px] w-[100px] h-[38px] top-[6px] left-[1345px] text-white">
+                <MenubarTrigger className="leading-[38.4px] text-[32px] w-[100px] h-[38px] text-white pt-2">
                     Login
                 </MenubarTrigger>
             </MenubarMenu>
