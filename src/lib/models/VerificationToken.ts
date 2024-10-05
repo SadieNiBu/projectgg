@@ -1,4 +1,10 @@
-import { Schema, model, models } from "mongoose";
+import { Model, Schema, model, models } from "mongoose";
+
+export type VerificationToken = {
+  identifier: string;
+  token: string;
+  expires: Date;
+};
 
 const verificationTokenSchema = new Schema({
   identifier: String,
@@ -7,6 +13,10 @@ const verificationTokenSchema = new Schema({
 });
 
 const VerificationToken =
-  models.VerificationToken ||
-  model("VerificationToken", verificationTokenSchema, "verificationTokens");
+  (models.VerificationToken as Model<VerificationToken>) ||
+  model<VerificationToken>(
+    "VerificationToken",
+    verificationTokenSchema,
+    "verificationTokens",
+  );
 export default VerificationToken;

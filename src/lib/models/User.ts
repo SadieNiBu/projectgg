@@ -1,6 +1,18 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Model } from "mongoose";
+import { Review } from "./Review";
 
-const userSchema = new Schema({
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: Date;
+  image: string;
+  following: User[];
+  reviews: Review[];
+  games: string[];
+};
+
+const userSchema = new Schema<User>({
   id: String,
   name: String,
   email: String,
@@ -21,5 +33,6 @@ const userSchema = new Schema({
   games: [String],
 });
 
-const User = models.User || model("User", userSchema, "users");
+const User =
+  (models.User as Model<User>) || model<User>("User", userSchema, "users");
 export default User;

@@ -1,4 +1,15 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Model } from "mongoose";
+import { User } from "./User";
+
+export type Review = {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  content: string;
+  user: User;
+  game: string;
+  rating: number;
+};
 
 const reviewSchema = new Schema({
   id: String,
@@ -16,5 +27,7 @@ const reviewSchema = new Schema({
   rating: Number,
 });
 
-const Review = models.Review || model("Review", reviewSchema, "reviews");
+const Review =
+  (models.Review as Model<Review>) ||
+  model<Review>("Review", reviewSchema, "reviews");
 export default Review;
