@@ -61,3 +61,13 @@ export const followSchema = z.object({
   following: z.string(),
 });
 export type Follow = z.infer<typeof followSchema>;
+
+export const collectionSchema = z.object({
+  id: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  userId: z.string(),
+  gameIds: z.number(),
+});
+
+export type Collection = z.infer<typeof collectionSchema>;
