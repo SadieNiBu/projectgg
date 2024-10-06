@@ -1,16 +1,30 @@
+import { Game } from '~/lib/schemas/igdb';
+import { constructImageUrl } from '~/lib/utils';
 import '~/styles/game.css'
 
-const Game = () => {
+const GameID = async (game: Game) =>
+{
+    function getGameCover()
+    {
+        if (!game.cover)
+        {
+            console.log("Test Message: Undefined");
+            return undefined;
+        }
+        console.log("Test Message"+game.cover?.image_id);
+        return constructImageUrl(game.cover?.image_id ?? "", "cover_big");
+    }
+
     return (
         <div className="grid grid-cols-[.4fr,1fr] grid-rows-1] ">
             {/* Image taking up the first column */}
             <div className="flex w-fit pt-[75px]">
                 <img
-                    src="https://m.media-amazon.com/images/I/81UfEdvf2kL._AC_UF1000,1000_QL80_.jpg"
+                    src={getGameCover() ? getGameCover() : "https://m.media-amazon.com/images/I/81UfEdvf2kL._AC_UF1000,1000_QL80_.jpg"}
                     className="game_pic ml-20 object-cover w-auto h-[300px] rounded-lg"
                 />
             </div>
-            
+
             {/* Right column containing two sections */}
             <div className="flex flex-col pl-10 ml-4 mr-4 pt-[70px]">
                 <div className='pb-20'>
@@ -27,8 +41,4 @@ const Game = () => {
     );
 }
 
-
-
-
-
-export default Game
+export default GameID

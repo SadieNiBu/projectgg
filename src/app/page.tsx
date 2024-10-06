@@ -8,11 +8,13 @@ import Review from "~/components/review";
 export default async function HomePage() {
   const session = await getServerAuthSession();
   let recentlyPlayed: Game[] = [];
+  let friendActivity: any[] = [];
   const newReleases = await api.igdb.getNewReleases({ limit: 3 });
   if (session?.user) {
     const recentlyReviewed = await api.database.getReviewsByUser(
       session.user.id,
     );
+    const friendActivity = await api.database.getFriendActivity();
     if (recentlyReviewed.length !== 0) {
       const recentlyReviewedGames = recentlyReviewed.map(
         (review) => review.gameId,
@@ -20,7 +22,7 @@ export default async function HomePage() {
       recentlyPlayed = await api.igdb.getGamesById(recentlyReviewedGames);
     }
   }
-  const friendActivity = await api.database.getFriendActivity();
+  
 
   return (
     <HydrateClient>
