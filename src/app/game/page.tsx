@@ -34,8 +34,8 @@ export default async function Home()
           <div>
             <div className="grid grid-rows-2">
                 <Game />
-              <div className='text-white font-[600] text-[24px] leading-[28.8px] pt-[20px] pl-[75px]'>
-                <p>Reviews</p>
+              <div className='text-white font-[600] text-[24px] leading-[28.8px] pt-[20px] pl-[40px]'>
+                <p className='pl-10'>Reviews</p>
                 <div>
                   <Review />
                   <PersonalReview />
@@ -43,9 +43,7 @@ export default async function Home()
               </div>
             </div>
           </div>
-          {Divider()}
           <div>
-
           </div>
         </div>
         <div className="h-[50px]" />
