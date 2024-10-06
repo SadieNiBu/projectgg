@@ -19,6 +19,7 @@ const userSchema = z.object({
   emailVerified: z.date().optional(),
   image: z.string().optional(),
   gameIds: z.array(z.number()),
+  currentlyPlaying: z.number().optional(),
 });
 
 export type User = z.infer<typeof userSchema>;

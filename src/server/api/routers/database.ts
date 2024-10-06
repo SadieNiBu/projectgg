@@ -215,4 +215,15 @@ export const databaseRouter = createTRPCRouter({
       await comment.deleteOne();
       return comment.toJSON();
     }),
+  setCurrentlyPlaying: protectedProcedure
+    .input(z.number())
+    .mutation(async ({ input, ctx }) => {
+      const user = await User.findById(ctx.session.user.id);
+      if (!user) {
+        throw new TRPCError({ message: "User not found", code: "NOT_FOUND" });
+      }
+      user.currentlyPlaying = input;
+      await user.save();
+      return user.toJSON();
+    }),
 });
