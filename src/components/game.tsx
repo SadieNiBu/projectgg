@@ -4,7 +4,7 @@ const Game = () => {
     return (
         <div className="grid grid-cols-[.4fr,1fr] grid-rows-1] ">
             {/* Image taking up the first column */}
-            <div className="flex w-fit pt-[75px]">
+            <div className="flex w-fit pt-[0px]">
                 <img
                     src="https://m.media-amazon.com/images/I/81UfEdvf2kL._AC_UF1000,1000_QL80_.jpg"
                     className="game_pic ml-20 object-cover w-auto h-[300px] rounded-lg"
@@ -12,7 +12,7 @@ const Game = () => {
             </div>
             
             {/* Right column containing two sections */}
-            <div className="flex flex-col pl-10 ml-4 mr-4 pt-[70px]">
+            <div className="flex flex-col pl-10 ml-4 mr-4 pt-[0px]">
                 <div className='pb-20'>
                     <p className="text-white font-[400] text-[32px] leading-[38.4px] ">Animal Crossing: New Horizons</p>
                     <p className="text-white font-[400] text-[20px] leading-[24px] pt-2">
