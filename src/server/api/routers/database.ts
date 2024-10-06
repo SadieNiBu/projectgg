@@ -27,6 +27,23 @@ export const databaseRouter = createTRPCRouter({
       const review = await Review.find({ user: input });
       return review.map((r) => r.toJSON());
     }),
+  getFriendActivity: protectedProcedure.query(async ({ ctx }) => {
+    const following = await Follow.find({ follower: ctx.session.user.id });
+    let friends: string[] = [];
+    for (const follow of following) {
+      const isAlsoFollowing = await Follow.findOne({
+        follower: follow.following,
+        following: ctx.session.user.id,
+      });
+      if (isAlsoFollowing) {
+        friends.push(follow.following);
+      }
+    }
+    const friendReviews = await Review.find({
+      userId: { $in: friends },
+    }).sort({ createdAt: -1 });
+    return friendReviews.map((r) => r.toJSON());
+  }),
   reviewGame: protectedProcedure
     .input(
       reviewSchema

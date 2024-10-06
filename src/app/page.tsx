@@ -1,9 +1,27 @@
 import "~/styles/home.css";
-import Review from "~/components/review";
 import GameList from "~/components/game_list";
-import { HydrateClient } from "~/trpc/server";
+import { api, HydrateClient } from "~/trpc/server";
+import { getServerAuthSession } from "~/server/auth";
+import { Game } from "~/lib/schemas/igdb";
+import Review from "~/components/review";
 
 export default async function HomePage() {
+  const session = await getServerAuthSession();
+  let recentlyPlayed: Game[] = [];
+  const newReleases = await api.igdb.getNewReleases({ limit: 3 });
+  if (session?.user) {
+    const recentlyReviewed = await api.database.getReviewsByUser(
+      session.user.id,
+    );
+    if (recentlyReviewed.length !== 0) {
+      const recentlyReviewedGames = recentlyReviewed.map(
+        (review) => review.gameId,
+      );
+      recentlyPlayed = await api.igdb.getGamesById(recentlyReviewedGames);
+    }
+  }
+  const friendActivity = await api.database.getFriendActivity();
+
   return (
     <HydrateClient>
       <main>
@@ -18,29 +36,26 @@ export default async function HomePage() {
 
         <div className="grid grid-cols-[480px_minmax(0px,_0fr)_900px]">
           <div className="grid grid-rows-3 pl-[100px] pt-[145px]">
-            <div className="update_progress text-nowrap pl-[8px] pt-[8px] text-[24px] font-[600] leading-[28.8px] text-white">
-              Update Your Progress!
+            <div className="update_progress text-nowrap pt-[8px] text-center text-[24px] font-[600] leading-[28.8px] text-white">
+              Recently Played
               <div className="games grid grid-cols-3">
-                <GameList />
-                <GameList />
-                <GameList />
+                {recentlyPlayed.length !== 0 &&
+                  recentlyPlayed
+                    .slice(0, 3)
+                    .map((game) => <GameList key={game.id} game={game} />)}
               </div>
             </div>
             <div className="friend_activity pl-[8px] pt-[7px] text-[24px] font-[600] leading-[28.8px] text-white">
-              <p className="pl-[48px] pt-[0px]">Friend Activity</p>
+              <p className="pt-[0px] text-center">New Releases</p>
               <div className="games grid grid-cols-3">
-                <GameList />
-                <GameList />
-                <GameList />
+                {newReleases.map((rp) => (
+                  <GameList key={rp.game.id} game={rp.game} />
+                ))}
               </div>
             </div>
             <div className="new_releases pl-[8px] pt-[7px] text-[24px] font-[600] leading-[28.8px] text-white">
-              <p className="pl-[48px] pt-[0px]">New Releases</p>
-              <div className="games grid grid-cols-3">
-                <GameList />
-                <GameList />
-                <GameList />
-              </div>
+              <p className="pt-[0px] text-center">Games of the Week</p>
+              <div className="games grid grid-cols-3"></div>
             </div>
           </div>
           <div className="pt-[85px]">
@@ -78,9 +93,9 @@ export default async function HomePage() {
               Activity
             </p>
             <div className="grid grid-rows-3 pl-[80px]">
-              <Review />
-              <Review />
-              <Review />
+              {friendActivity.map((review) => (
+                <Review key={review.id} data={review} />
+              ))}
             </div>
           </div>
         </div>

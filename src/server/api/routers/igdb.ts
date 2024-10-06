@@ -30,16 +30,16 @@ export const igdbRouter = createTRPCRouter({
       const games = await gamesResponse.json();
       return z.array(gamesSchema).parse(games);
     }),
-  getGameById: publicProcedure
-    .input(z.number())
+  getGamesById: publicProcedure
+    .input(z.number().array())
     .query(async ({ input, ctx }) => {
       const gameResponse = await igdbRequest(
         "games",
-        `fields name,cover.url,cover.image_id; where id = ${input};`,
+        `fields name,cover.url,cover.image_id; where id = (${input});`,
         ctx.igdbAccessToken,
       );
-      const game = await gameResponse.json();
-      return gamesSchema.parse(game.at(0));
+      const games = await gameResponse.json();
+      return gamesSchema.array().parse(games);
     }),
   getNewReleases: publicProcedure
     .input(z.object({ limit: z.number() }))
@@ -47,7 +47,7 @@ export const igdbRouter = createTRPCRouter({
       const currentTimeInSeconds = Math.floor(Date.now() / 1000);
       const newReleasesResponse = await igdbRequest(
         "release_dates",
-        `fields game.name,date; limit ${input.limit}; where date < ${currentTimeInSeconds}; sort date desc;`,
+        `fields game.name,game.cover.image_id,game.cover.url,date; limit ${input.limit}; where date < ${currentTimeInSeconds}; sort date desc;`,
         ctx.igdbAccessToken,
       );
       const newReleases = await newReleasesResponse.json();

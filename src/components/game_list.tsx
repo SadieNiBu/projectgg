@@ -1,9 +1,20 @@
-const GameList = () => {
-    return (
-        <img className="w-[75px] h-[102px] rounded-lg"
-        src="https://media.discordapp.net/attachments/1290909039017857046/1292050591559848016/Warhammer_402C000_Space_Marine_2_cover_art.png?ex=67025362&is=670101e2&hm=00e52aeb5b72d6b230cdfc05a6b3bc75fbe381aa2da9a1edf4e3f596dca270e6&=&format=webp&quality=lossless&width=546&height=730">
-        </img>
-    )
-}
+import { Game } from "~/lib/schemas/igdb";
+import { constructImageUrl } from "~/lib/utils";
 
-export default GameList
+const GameList = async ({ game }: { game: Game }) => {
+  if (!game.cover) {
+    return (
+      <div className="flex h-[102px] w-[75px] flex-col justify-center rounded-lg bg-gray-400 text-center text-sm">
+        {game.name}
+      </div>
+    );
+  }
+  return (
+    <img
+      className="h-[102px] w-[75px] rounded-lg"
+      src={constructImageUrl(game.cover?.image_id ?? "", "cover_big")}
+    ></img>
+  );
+};
+
+export default GameList;
