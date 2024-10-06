@@ -7,6 +7,7 @@ import User from "~/lib/models/User";
 import { z } from "zod";
 import Review from "~/lib/models/Review";
 import { reviewSchema } from "~/lib/schemas/database";
+import Follow from "~/lib/models/Follow";
 
 export const databaseRouter = createTRPCRouter({
   getUserById: publicProcedure.input(z.string()).query(async ({ input }) => {
@@ -45,5 +46,27 @@ export const databaseRouter = createTRPCRouter({
       }
       await review.deleteOne();
       return review.toJSON();
+    }),
+  getUserFollowers: publicProcedure
+    .input(z.string())
+    .query(async ({ input }) => {
+      const followers = await Follow.find({ following: input });
+      return followers.map((f) => f.toJSON());
+    }),
+  getUserFollowing: publicProcedure
+    .input(z.string())
+    .query(async ({ input }) => {
+      const following = await Follow.find({ follower: input });
+      return following.map((f) => f.toJSON());
+    }),
+  followUser: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ input, ctx }) => {
+      const follow = new Follow({
+        follower: ctx.session.user.id,
+        following: input,
+      });
+      await follow.save();
+      return follow.toJSON();
     }),
 });

@@ -56,3 +56,10 @@ export const verificationTokenSchema = z.object({
   expires: z.date(),
 });
 export type VerificationToken = z.infer<typeof verificationTokenSchema>;
+
+export const followSchema = z.object({
+  id: z.string(),
+  follower_id: z.string(),
+  following_id: z.string(),
+});
+export type Follow = z.infer<typeof followSchema>;
