@@ -1,11 +1,3 @@
-.game_pic {
-    /* border-radius: 15px;
-    position: relative;
-    left: calc(50% - 134px/2 - 310px);
-    top: 80px;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); */
-}
-
 .info_box {
     /* display: flex;
     flex-direction: row;
@@ -25,5 +17,22 @@
 
     background: rgba(0, 0, 0, 0.22);
     padding-left: 5px;
+    border-radius: 10px;
+}
+
+.star_box {
+    width: 19px;
+    height: 82px;
+    position: absolute;
+    background: rgba(227, 211, 255, 0.29);
+    border-radius: 10px;
+}
+
+.new_review_box {
+    box-sizing: border-box;
+    width: 685px;
+    height: 82px;
+    background: rgba(217, 217, 217, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
     border-radius: 10px;
 }

@@ -6,6 +6,7 @@ import Divider from '~/components/ui/divider';
 import { LatestPost } from "~/components/ui/post";
 import { getServerAuthSession } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
+import NewReview from '~/components/new_review';
 import PersonalReview from "~/components/personal_review";
 
 export default async function Home()
@@ -32,15 +33,14 @@ export default async function Home()
           </div>
           {Divider()}
           <div>
-            <div className="grid grid-rows-2">
+            <div className="grid grid-rows-3">
                 <Game />
-              <div className='text-white font-[600] text-[24px] leading-[28.8px] pt-[20px] pl-[40px]'>
-                <p className='pl-10'>Reviews</p>
-                <div>
+                <p className='pl-[300px] pt-[350px] absolute text-white font-[600] text-[24px] leading-[28.8px]'>Reviews</p>
+                <div className='pl-[70px] pt-[400px] absolute'>
+                  <NewReview />
                   <Review />
                   <PersonalReview />
                 </div>
-              </div>
             </div>
           </div>
           <div>
