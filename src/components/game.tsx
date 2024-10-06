@@ -30,7 +30,10 @@ const GameID = async (game: Game) =>
     }
     function getReleaseDate()
     {
-        return game.first_release_date;
+        let unixTime = game.first_release_date ?? 0;
+        // converting to Dec. 1, 2022 format
+        let date = new Date(unixTime * 1000);
+        return date.toDateString();
     }
 
     return (
@@ -50,7 +53,7 @@ const GameID = async (game: Game) =>
                     <p className="text-white font-[400] text-[20px] leading-[24px] pt-2">{getGameSummary()}</p>
                 </div>
                 <div className="info_box text-white font-[500] text-[16px] leading-[22.4px]">
-                    <p className="m-1">Rating: {getGameRating()}<br />Studio: Nintendo<br />Release Date: {getReleaseDate()}</p>
+                    <p className="m-1">Rating: {getGameRating()}<br />Studio: Nintendo<br />Release Date:<br/>{getReleaseDate()}</p>
                 </div>
             </div>
         </div>
