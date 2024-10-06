@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import UpVote from "./upvote";
 import { api } from "~/trpc/server";
 
-export function ProfilePic({ url }) {
+export function ProfilePic({ url }: { url: string }) {
   return (
     <Avatar className="absolute left-[14px] top-[9px]">
       <AvatarImage src={url} alt="@user" />
@@ -24,7 +24,7 @@ const PersonalReview = async ({
     <div>
       <div className="review relative z-[-999] m-[22px]">
         <div className="h-[142px] w-[726px] rounded-3xl bg-slate-800 object-cover opacity-90 brightness-50" />
-        <ProfilePic url={userData.image} />
+        <ProfilePic url={userData.image ?? ""} />
         <div className="absolute bottom-[25px] left-[17px]">
           <UpVote />
         </div>
