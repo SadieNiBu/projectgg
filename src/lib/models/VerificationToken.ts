@@ -1,10 +1,5 @@
 import { Model, Schema, model, models } from "mongoose";
-
-export type VerificationToken = {
-  identifier: string;
-  token: string;
-  expires: Date;
-};
+import type { VerificationToken } from "~/lib/schemas/database";
 
 const verificationTokenSchema = new Schema({
   identifier: String,

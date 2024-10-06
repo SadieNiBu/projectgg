@@ -24,6 +24,8 @@ export const env = createEnv({
     MONGODB_URI: z.string(),
     AUTH_DISCORD_ID: z.string(),
     AUTH_DISCORD_SECRET: z.string(),
+    IGDB_CLIENT_ID: z.string(),
+    IGDB_CLIENT_SECRET: z.string(),
   },
   /**
    * Specify your client-side environment variables schema here. This way you can ensure the app
@@ -46,6 +48,8 @@ export const env = createEnv({
     MONGODB_URI: process.env.MONGODB_URI,
     AUTH_DISCORD_ID: process.env.AUTH_DISCORD_ID,
     AUTH_DISCORD_SECRET: process.env.AUTH_DISCORD_SECRET,
+    IGDB_CLIENT_ID: process.env.IGDB_CLIENT_ID,
+    IGDB_CLIENT_SECRET: process.env.IGDB_CLIENT_SECRET,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

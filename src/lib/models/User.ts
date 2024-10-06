@@ -1,36 +1,13 @@
 import { Schema, model, models, Model } from "mongoose";
-import { Review } from "./Review";
+import type { User } from "~/lib/schemas/database";
 
-export type User = {
-  id: string;
-  name: string;
-  email: string;
-  emailVerified: Date;
-  image: string;
-  following: User[];
-  reviews: Review[];
-  games: string[];
-};
-
-const userSchema = new Schema<User>({
+const userSchema = new Schema({
   id: String,
   name: String,
   email: String,
   emailVerified: Date,
   image: String,
-  following: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "users",
-    },
-  ],
-  reviews: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "reviews",
-    },
-  ],
-  games: [String],
+  gameIds: [String],
 });
 
 const User =
