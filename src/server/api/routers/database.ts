@@ -8,12 +8,13 @@ import { z } from "zod";
 import Review from "~/lib/models/Review";
 import { reviewSchema } from "~/lib/schemas/database";
 import Follow from "~/lib/models/Follow";
+import { TRPCError } from "@trpc/server";
 
 export const databaseRouter = createTRPCRouter({
   getUserById: publicProcedure.input(z.string()).query(async ({ input }) => {
     const user = await User.findById(input);
     if (!user) {
-      throw new Error("User not found");
+      throw new TRPCError({ message: "User not found", code: "NOT_FOUND" });
     }
     return user.toJSON();
   }),
@@ -21,9 +22,6 @@ export const databaseRouter = createTRPCRouter({
     .input(z.string())
     .query(async ({ input }) => {
       const review = await Review.find({ user: input });
-      if (!review) {
-        throw new Error("Review not found");
-      }
       return review.map((r) => r.toJSON());
     }),
   reviewGame: protectedProcedure
@@ -42,7 +40,7 @@ export const databaseRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       const review = await Review.findById(input);
       if (!review) {
-        throw new Error("Review not found");
+        throw new TRPCError({ message: "Review not found", code: "NOT_FOUND" });
       }
       await review.deleteOne();
       return review.toJSON();
@@ -62,6 +60,16 @@ export const databaseRouter = createTRPCRouter({
   followUser: protectedProcedure
     .input(z.string())
     .mutation(async ({ input, ctx }) => {
+      const followExists = await Follow.findOne({
+        follower: ctx.session.user.id,
+        following: input,
+      });
+      if (followExists) {
+        throw new TRPCError({
+          message: "Already following user",
+          code: "FORBIDDEN",
+        });
+      }
       const follow = new Follow({
         follower: ctx.session.user.id,
         following: input,
@@ -77,7 +85,10 @@ export const databaseRouter = createTRPCRouter({
         following: input,
       });
       if (!follow) {
-        throw new Error("Follow not found");
+        throw new TRPCError({
+          message: "Not following user",
+          code: "FORBIDDEN",
+        });
       }
       await follow.deleteOne();
       return follow.toJSON();
