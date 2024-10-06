@@ -9,6 +9,7 @@ import Review from "~/lib/models/Review";
 import { reviewSchema } from "~/lib/schemas/database";
 import Follow from "~/lib/models/Follow";
 import { TRPCError } from "@trpc/server";
+import Collection from "~/lib/models/Collection";
 
 export const databaseRouter = createTRPCRouter({
   getUserById: publicProcedure.input(z.string()).query(async ({ input }) => {
@@ -92,5 +93,36 @@ export const databaseRouter = createTRPCRouter({
       }
       await follow.deleteOne();
       return follow.toJSON();
+    }),
+  createCollection: protectedProcedure
+    .input(z.array(z.number()))
+    .mutation(async ({ input, ctx }) => {
+      const newCollection = new Collection({
+        updatedAt: new Date(),
+        createdAt: new Date(),
+        userId: ctx.session.user.id,
+        gameIds: input,
+      });
+      await newCollection.save();
+      return newCollection.toJSON();
+    }),
+  getCollectionsByUser: publicProcedure
+    .input(z.string())
+    .query(async ({ input }) => {
+      const collections = await Collection.find({ userId: input });
+      return collections.map((c) => c.toJSON());
+    }),
+  deleteCollection: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ input }) => {
+      const collection = await Collection.findById(input);
+      if (!collection) {
+        throw new TRPCError({
+          message: "Collection not found",
+          code: "NOT_FOUND",
+        });
+      }
+      await collection.deleteOne();
+      return collection.toJSON();
     }),
 });
