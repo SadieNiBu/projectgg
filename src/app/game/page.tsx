@@ -2,12 +2,10 @@ import "~/styles/game.css";
 import Game from "~/components/game";
 import Review from "~/components/review";
 import Divider from "~/components/ui/divider";
-import { api, HydrateClient } from "~/trpc/server";
+import { HydrateClient } from "~/trpc/server";
 import PersonalReview from "~/components/personal_review";
 
 export default async function GamePage() {
-  void api.post.getLatest.prefetch();
-
   return (
     <HydrateClient>
       <main>

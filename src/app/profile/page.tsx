@@ -1,12 +1,10 @@
 import "~/styles/profile.css";
 import PersonalReview from "~/components/personal_review";
 import GameList from "~/components/game_list";
-import { api, HydrateClient } from "~/trpc/server";
+import { HydrateClient } from "~/trpc/server";
 import PersonalProfile from "~/components/personal_profile";
 
 export default async function ProfilePage() {
-  void api.post.getLatest.prefetch();
-
   return (
     <HydrateClient>
       <main>

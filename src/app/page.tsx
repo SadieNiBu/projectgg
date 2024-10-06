@@ -1,11 +1,9 @@
 import "~/styles/home.css";
 import Review from "~/components/review";
 import GameList from "~/components/game_list";
-import { api, HydrateClient } from "~/trpc/server";
+import { HydrateClient } from "~/trpc/server";
 
 export default async function HomePage() {
-  void api.post.getLatest.prefetch();
-
   return (
     <HydrateClient>
       <main>
