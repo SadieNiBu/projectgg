@@ -69,4 +69,17 @@ export const databaseRouter = createTRPCRouter({
       await follow.save();
       return follow.toJSON();
     }),
+  unfollowUser: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ input, ctx }) => {
+      const follow = await Follow.findOne({
+        follower: ctx.session.user.id,
+        following: input,
+      });
+      if (!follow) {
+        throw new Error("Follow not found");
+      }
+      await follow.deleteOne();
+      return follow.toJSON();
+    }),
 });
