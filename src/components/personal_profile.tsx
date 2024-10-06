@@ -4,7 +4,7 @@ import Showcase_Item from "./showcase_item";
 import "~/styles/profile.css";
 import { User } from "~/lib/schemas/database";
 
-export function ProfilePic({ url }) {
+export function ProfilePic({ url }: { url: string }) {
   return (
     <Avatar className="absolute ml-[50px] mt-[0px] h-[143px] w-[143px] border border-[#962896]">
       <AvatarImage src={url} alt="@user" />
@@ -16,7 +16,7 @@ export function ProfilePic({ url }) {
 const PersonalProfile = ({ userData }: { userData: User }) => {
   return (
     <div>
-      <ProfilePic url={userData.image} />
+      <ProfilePic url={userData.image ?? ""} />
       <p className="absolute ml-[230px] mt-[0px] text-[32px] font-[400] leading-[38.4px] text-white">
         {userData.name}
       </p>
