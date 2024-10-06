@@ -3,7 +3,7 @@ import '~/styles/profile.css'
 
 const Showcase = () => {
     return (
-        <div className="rectangle ml-[180px] mt-[200px]">
+        <div className="rectangle ml-[180px] mt-[100px]">
         <div className="grid grid-cols-7 mt-3 pl-5">
             <Showcase_Item />
             <Showcase_Item />

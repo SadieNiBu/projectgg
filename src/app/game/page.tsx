@@ -25,8 +25,8 @@ export default async function GamePage() {
           <div>
             <div className="grid grid-rows-3">
                 <Game />
-                <p className='pl-[300px] pt-[350px] absolute text-white font-[600] text-[24px] leading-[28.8px]'>Reviews</p>
-                <div className='pl-[70px] pt-[400px] absolute'>
+                <p className='pl-[300px] pt-[270px] absolute text-white font-[600] text-[24px] leading-[28.8px]'>Reviews</p>
+                <div className='pl-[70px] pt-[325px] absolute'>
                   <NewReview />
                   <Review />
                   <PersonalReview />
