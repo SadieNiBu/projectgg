@@ -33,7 +33,7 @@ export default async function ProfilePage() {
   } else {
     allActivity = await api.database.getAllReviews({ limit: 3 });
   }
-  let games = await api.igdb.getGamesById([2]);
+  let games = await api.igdb.getGamesById([4]);
     const game = games[0];
     if (!game)
     {
@@ -51,7 +51,6 @@ export default async function ProfilePage() {
         <div className="relative z-[-99] h-64 w-full">
           <img
             src={banner}
-            alt="Aninmal Crossing: New Leaf"
             className="h-full w-full object-cover"
           ></img>
           <div className="from-opacity-100 to-opacity-0 z-100 absolute inset-0 bg-gradient-to-b from-transparent to-[#292B43]"></div>

@@ -37,8 +37,7 @@ export default async function HomePage() {
       <main>
         <div className="relative z-[-99] h-64 w-full">
           <img
-            src="https://media.discordapp.net/attachments/1290909039017857046/1292050593258536960/sea-of-thieves-4.png?ex=67025362&is=670101e2&hm=1b85e6fc2030fc0d7bd0ac0e932062e62724ee58e2a02289a39223353aed55e4&=&format=webp&quality=lossless&width=2068&height=1164"
-            alt="Sea of Thieves"
+            src="https://www.thexboxhub.com/wp-content/uploads/2018/04/Sea-of-Thieves-Final-Beta.jpg"
             className="h-full w-full object-cover"
           ></img>
           <div className="from-opacity-100 to-opacity-0 z-100 absolute inset-0 bg-gradient-to-b from-transparent to-[#292B43]"></div>

@@ -14,8 +14,7 @@ const PersonalReview = () => {
     return (
         <div>
             <div className="review m-[22px] z-[-999] relative">
-                <img className="rounded-3xl h-[142px] w-[726px] object-cover brightness-50 opacity-90"
-                src="https://media.discordapp.net/attachments/1290909039017857046/1292050592595841126/thumb-1920-1319952.png?ex=67025362&is=670101e2&hm=569282500afcf6aaed8b6b537bfe7c1e04bee029c4ef8bfb732469215cde707b&=&format=webp&quality=lossless&width=2068&height=1164" / >
+                <div className="rounded-3xl h-[142px] w-[726px] object-cover brightness-50 opacity-90 bg-slate-800" />
                 <ProfilePic />
                 <div className="absolute bottom-[25px] left-[17px]">
                     <UpVote />
