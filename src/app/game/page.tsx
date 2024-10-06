@@ -2,7 +2,6 @@ import "~/styles/game.css";
 import Game from "~/components/game";
 import Review from "~/components/review";
 import Divider from '~/components/ui/divider';
-import { LatestPost } from "~/components/ui/post";
 import { getServerAuthSession } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
 import NewReview from '~/components/new_review';
