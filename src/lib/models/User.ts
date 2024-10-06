@@ -8,6 +8,7 @@ const userSchema = new Schema({
   emailVerified: Date,
   image: String,
   gameIds: [String],
+  currentlyPlaying: Number,
 });
 
 const User =

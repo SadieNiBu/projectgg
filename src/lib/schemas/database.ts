@@ -19,6 +19,7 @@ const userSchema = z.object({
   emailVerified: z.date().optional(),
   image: z.string().optional(),
   gameIds: z.array(z.number()),
+  currentlyPlaying: z.number().optional(),
 });
 
 export type User = z.infer<typeof userSchema>;
@@ -67,7 +68,24 @@ export const collectionSchema = z.object({
   createdAt: z.string(),
   updatedAt: z.string(),
   userId: z.string(),
-  gameIds: z.number(),
+  gameIds: z.array(z.number()),
 });
 
 export type Collection = z.infer<typeof collectionSchema>;
+
+export const likeSchema = z.object({
+  id: z.string(),
+  userId: z.string(),
+  reviewId: z.string(),
+});
+
+export type Like = z.infer<typeof likeSchema>;
+
+export const commentSchema = z.object({
+  id: z.string(),
+  userId: z.string(),
+  reviewId: z.string(),
+  content: z.string(),
+});
+
+export type Comment = z.infer<typeof commentSchema>;
