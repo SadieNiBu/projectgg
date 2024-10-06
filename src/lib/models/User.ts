@@ -7,18 +7,6 @@ const userSchema = new Schema({
   email: String,
   emailVerified: Date,
   image: String,
-  following: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
-  reviews: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Review",
-    },
-  ],
   games: [String],
 });
 

@@ -18,8 +18,6 @@ const userSchema = z.object({
   email: z.string(),
   emailVerified: z.date().optional(),
   image: z.string().optional(),
-  following: z.array(z.string()),
-  reviews: z.array(z.string()),
   games: z.array(z.number()),
 });
 
