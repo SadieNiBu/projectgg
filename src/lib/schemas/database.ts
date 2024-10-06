@@ -71,3 +71,20 @@ export const collectionSchema = z.object({
 });
 
 export type Collection = z.infer<typeof collectionSchema>;
+
+export const likeSchema = z.object({
+  id: z.string(),
+  userId: z.string(),
+  reviewId: z.string(),
+});
+
+export type Like = z.infer<typeof likeSchema>;
+
+export const commentSchema = z.object({
+  id: z.string(),
+  userId: z.string(),
+  reviewId: z.string(),
+  content: z.string(),
+});
+
+export type Comment = z.infer<typeof commentSchema>;
