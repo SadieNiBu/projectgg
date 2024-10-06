@@ -6,7 +6,7 @@ import {
 import User from "~/lib/models/User";
 import { z } from "zod";
 import Review from "~/lib/models/Review";
-import { reviewSchema } from "~/lib/schemas/database";
+import { commentSchema, reviewSchema } from "~/lib/schemas/database";
 import Follow from "~/lib/models/Follow";
 import { TRPCError } from "@trpc/server";
 import Collection from "~/lib/models/Collection";
@@ -127,6 +127,20 @@ export const databaseRouter = createTRPCRouter({
       await collection.deleteOne();
       return collection.toJSON();
     }),
+  updateCollection: protectedProcedure
+    .input(z.object({ id: z.string(), gameIds: z.array(z.number()) }))
+    .mutation(async ({ input }) => {
+      const collection = await Collection.findById(input.id);
+      if (!collection) {
+        throw new TRPCError({
+          message: "Collection not found",
+          code: "NOT_FOUND",
+        });
+      }
+      collection.gameIds = input.gameIds;
+      await collection.save();
+      return collection.toJSON();
+    }),
   likeReview: protectedProcedure
     .input(z.string())
     .mutation(async ({ input, ctx }) => {
@@ -164,7 +178,7 @@ export const databaseRouter = createTRPCRouter({
       return like.toJSON();
     }),
   commentOnPost: protectedProcedure
-    .input(z.object({ reviewId: z.string(), content: z.string() }))
+    .input(commentSchema.omit({ id: true }))
     .mutation(async ({ input, ctx }) => {
       const comment = new Comment({
         userId: ctx.session.user.id,
@@ -175,7 +189,7 @@ export const databaseRouter = createTRPCRouter({
       return comment.toJSON();
     }),
   updateComment: protectedProcedure
-    .input(z.object({ id: z.string(), content: z.string() }))
+    .input(commentSchema.omit({ userId: true, reviewId: true }))
     .mutation(async ({ input }) => {
       const comment = await Comment.findById(input.id);
       if (!comment) {

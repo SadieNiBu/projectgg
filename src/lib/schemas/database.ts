@@ -67,7 +67,7 @@ export const collectionSchema = z.object({
   createdAt: z.string(),
   updatedAt: z.string(),
   userId: z.string(),
-  gameIds: z.number(),
+  gameIds: z.array(z.number()),
 });
 
 export type Collection = z.infer<typeof collectionSchema>;
