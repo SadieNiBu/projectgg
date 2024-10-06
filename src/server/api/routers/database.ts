@@ -28,7 +28,7 @@ export const databaseRouter = createTRPCRouter({
   getReviewsByUser: publicProcedure
     .input(z.string())
     .query(async ({ input }) => {
-      const review = await Review.find({ user: input });
+      const review = await Review.find({ userId: input });
       return review.map((r) => r.toJSON());
     }),
   getFriendActivity: protectedProcedure.query(async ({ ctx }) => {

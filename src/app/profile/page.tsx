@@ -18,6 +18,11 @@ export default async function ProfilePage() {
   const gamesOfTheWeek = await api.igdb.getGamesById(
     gotwAggregate.map((game) => game._id),
   );
+  const userInfo = await api.database.getUserById(session?.user.id ?? "");
+  const userReviews = await api.database.getReviewsByUser(
+    session?.user.id ?? "",
+  );
+  console.log(userReviews);
   if (session?.user) {
     const recentlyReviewed = await api.database.getReviewsByUser(
       session.user.id,
@@ -34,25 +39,21 @@ export default async function ProfilePage() {
     allActivity = await api.database.getAllReviews({ limit: 3 });
   }
   let games = await api.igdb.getGamesById([4]);
-    const game = games[0];
-    if (!game)
-    {
-        return <div>Game not found</div>;
-    }
+  const game = games[0];
+  if (!game) {
+    return <div>Game not found</div>;
+  }
 
-    // fetch reviews for this game
+  // fetch reviews for this game
 
-    // fetch banner for this game https://images.igdb.com/igdb/image/upload/t_{size}/{hash}.jpg
-    const banner = constructImageUrl(game.cover?.image_id ?? "", "1080p");
+  // fetch banner for this game https://images.igdb.com/igdb/image/upload/t_{size}/{hash}.jpg
+  const banner = constructImageUrl(game.cover?.image_id ?? "", "1080p");
 
   return (
     <HydrateClient>
       <main>
         <div className="relative z-[-99] h-64 w-full">
-          <img
-            src={banner}
-            className="h-full w-full object-cover"
-          ></img>
+          <img src={banner} className="h-full w-full object-cover"></img>
           <div className="from-opacity-100 to-opacity-0 z-100 absolute inset-0 bg-gradient-to-b from-transparent to-[#292B43]"></div>
         </div>
         <p className="absolute pl-[152px] pt-[65px] text-[32px] font-[400] leading-[38.4px] text-white">
@@ -71,7 +72,7 @@ export default async function ProfilePage() {
             <div className="list2 pl-[8px] pt-[7px] text-[24px] font-[600] leading-[28.8px] text-white">
               <p className="pl-[65px] pt-[0px]">Simulators</p>
               <div className="games grid grid-cols-3">
-              {newReleases.map(({ game }) => (
+                {newReleases.map(({ game }) => (
                   <GameList key={game.id} game={game} />
                 ))}
               </div>
@@ -79,7 +80,7 @@ export default async function ProfilePage() {
             <div className="list3 pl-[8px] pt-[7px] text-[24px] font-[600] leading-[28.8px] text-white">
               <p className="pl-[75px] pt-[0px]">Favorites</p>
               <div className="games grid grid-cols-3">
-              {newReleases.map(({ game }) => (
+                {newReleases.map(({ game }) => (
                   <GameList key={game.id} game={game} />
                 ))}
               </div>
@@ -116,13 +117,18 @@ export default async function ProfilePage() {
             </svg>
           </div>
           <div className="grid grid-rows-2">
-            <PersonalProfile />
+            <PersonalProfile userData={userInfo} />
             <div className="grid grid-rows-3 pl-[40px]">
               <p className="review_text">Reviews</p>
             </div>
             <div className="h-[500px] pl-[45px] pt-[110px]">
-              <PersonalReview />
-              <PersonalReview />
+              {userReviews.map((review) => (
+                <PersonalReview
+                  key={review.id}
+                  reviewData={review}
+                  userData={userInfo}
+                />
+              ))}
             </div>
           </div>
         </div>

@@ -1,30 +1,45 @@
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import UpVote from "./upvote"
+import { Review, User } from "~/lib/schemas/database";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import UpVote from "./upvote";
+import { api } from "~/trpc/server";
 
-export function ProfilePic() {
-    return (
-        <Avatar className="absolute top-[9px] left-[14px]">
-            <AvatarImage src="https://freerangestock.com/sample/156726/a-person-standing-on-a-sidewalk-in-a-city.jpg" alt="@user"/>
-            <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-    )
+export function ProfilePic({ url }) {
+  return (
+    <Avatar className="absolute left-[14px] top-[9px]">
+      <AvatarImage src={url} alt="@user" />
+      <AvatarFallback>CN</AvatarFallback>
+    </Avatar>
+  );
 }
 
-const PersonalReview = () => {
-    return (
-        <div>
-            <div className="review m-[22px] z-[-999] relative">
-                <div className="rounded-3xl h-[142px] w-[726px] object-cover brightness-50 opacity-90 bg-slate-800" />
-                <ProfilePic />
-                <div className="absolute bottom-[25px] left-[17px]">
-                    <UpVote />
-                </div>
-                <p className="absolute top-[5px] left-[65px] font-[600] text-[16px] leading-[22.4px] text-[hsla(0,0%,86%,1)]">Game Name</p>
-                <p className="absolute top-[25px] left-[65px] font-[400] text-[16px] leading-[22.4px] text-[#B3B3B3]">User's Name</p>
-                <p className="absolute top-[55px] left-[65px] font-[400] text-[16px] leading-[22.4px] text-[#F1F1F1]">Text Review Description Placeholder Text Please Place Text Here Text Review<br />Description Placeholder Text Please Place Text Here Text Review Description<br />Placeholder Text </p>
-            </div>
+const PersonalReview = async ({
+  reviewData,
+  userData,
+}: {
+  reviewData: Review;
+  userData: User;
+}) => {
+  const game = (await api.igdb.getGamesById([reviewData.gameId])).at(0);
+  return (
+    <div>
+      <div className="review relative z-[-999] m-[22px]">
+        <div className="h-[142px] w-[726px] rounded-3xl bg-slate-800 object-cover opacity-90 brightness-50" />
+        <ProfilePic url={userData.image} />
+        <div className="absolute bottom-[25px] left-[17px]">
+          <UpVote />
         </div>
-    )
-}
+        <p className="absolute left-[65px] top-[5px] text-[16px] font-[600] leading-[22.4px] text-[hsla(0,0%,86%,1)]">
+          {game?.name}
+        </p>
+        <p className="absolute left-[65px] top-[25px] text-[16px] font-[400] leading-[22.4px] text-[#B3B3B3]">
+          {userData.name}
+        </p>
+        <p className="absolute left-[65px] top-[55px] text-[16px] font-[400] leading-[22.4px] text-[#F1F1F1]">
+          {reviewData.content}
+        </p>
+      </div>
+    </div>
+  );
+};
 
-export default PersonalReview
+export default PersonalReview;
