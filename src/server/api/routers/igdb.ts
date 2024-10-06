@@ -35,10 +35,11 @@ export const igdbRouter = createTRPCRouter({
     .query(async ({ input, ctx }) => {
       const gameResponse = await igdbRequest(
         "games",
-        `fields name,cover.url,cover.image_id; where id = (${input});`,
+        `fields name,cover.url,cover.image_id,summary,rating, first_release_date; where id = (${input});`,
         ctx.igdbAccessToken,
       );
-      const games = await gameResponse.json();
+      const games = await gameResponse.json(); 
+      console.log(games);
       return gamesSchema.array().parse(games);
     }),
   getNewReleases: publicProcedure

@@ -25,6 +25,7 @@ export default async function HomePage() {
         (review) => review.gameId,
       );
       recentlyPlayed = await api.igdb.getGamesById(recentlyReviewedGames);
+      console.log(recentlyPlayed);
     }
     friendActivity = await api.database.getFriendActivity();
   } else {

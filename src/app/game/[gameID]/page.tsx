@@ -51,7 +51,7 @@ export default async function Page({ params }: GamePageProps)
                     {Divider()}
                     <div>
                         <div className="grid grid-rows-2">
-                            <GameID id={game.id} name={game.name} cover={game.cover} />
+                            {GameID(game)}
                             <div className="pl-[40px] pt-[20px] text-[24px] font-[600] leading-[28.8px] text-white">
                                 <p className="pl-10">Reviews</p>
                                 <div>

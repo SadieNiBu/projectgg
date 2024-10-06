@@ -14,6 +14,9 @@ export type Cover = z.infer<typeof coverSchema>;
 export const gamesSchema = z.object({
   id: z.number(),
   name: z.string(),
+  first_release_date: z.number().optional(),
+  rating: z.number().optional(),
+  summary: z.string().optional(),
   cover: coverSchema.optional(),
 });
 
