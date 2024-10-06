@@ -38,7 +38,7 @@ export const igdbRouter = createTRPCRouter({
         `fields name,cover.url,cover.image_id,summary,rating, first_release_date; where id = (${input});`,
         ctx.igdbAccessToken,
       );
-      const games = await gameResponse.json(); 
+      const games = await gameResponse.json();
       console.log(games);
       return gamesSchema.array().parse(games);
     }),
@@ -53,5 +53,16 @@ export const igdbRouter = createTRPCRouter({
       );
       const newReleases = await newReleasesResponse.json();
       return z.array(releaseDatesSchema).parse(newReleases);
+    }),
+  searchGames: publicProcedure
+    .input(z.object({ query: z.string(), limit: z.number() }))
+    .query(async ({ input, ctx }) => {
+      const searchResponse = await igdbRequest(
+        "games",
+        `fields name,cover.url,cover.image_id,summary,rating, first_release_date; search "${input.query}"; limit ${input.limit};`,
+        ctx.igdbAccessToken,
+      );
+      const games = await searchResponse.json();
+      return z.array(gamesSchema).parse(games);
     }),
 });
