@@ -2,10 +2,22 @@
 import { signIn, signOut } from "next-auth/react";
 import { Button } from "./ui/button";
 import { Session } from "next-auth";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import Link from "next/link";
 
 const authButton = ({ session }: { session: Session | null }) => {
   if (session?.user) {
-    return <Button onClick={() => signOut()}>Sign out</Button>;
+    return (
+      <div className="flex items-center gap-4">
+        <Link href="/profile">
+          <Avatar>
+            <AvatarImage src={session.user.image ?? ""} />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+        </Link>
+        <Button onClick={() => signOut()}>Sign out</Button>
+      </div>
+    );
   } else {
     return (
       <Button className="mr-4" onClick={() => signIn("discord")}>
