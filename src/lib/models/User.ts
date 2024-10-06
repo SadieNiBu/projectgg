@@ -1,7 +1,7 @@
 import { Schema, model, models, Model } from "mongoose";
-import type { Review, User } from "~/lib/schemas/database";
+import type { User } from "~/lib/schemas/database";
 
-const userSchema = new Schema<User>({
+const userSchema = new Schema({
   id: String,
   name: String,
   email: String,
@@ -10,13 +10,13 @@ const userSchema = new Schema<User>({
   following: [
     {
       type: Schema.Types.ObjectId,
-      ref: "users",
+      ref: "User",
     },
   ],
   reviews: [
     {
       type: Schema.Types.ObjectId,
-      ref: "reviews",
+      ref: "Review",
     },
   ],
   games: [String],

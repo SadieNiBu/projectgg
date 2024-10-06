@@ -1,7 +1,7 @@
 import { Schema, model, models, Model } from "mongoose";
 import type { Account } from "~/lib/schemas/database";
 
-const accountSchema = new Schema<Account>({
+const accountSchema = new Schema({
   id: String,
   userId: String,
   type: String,

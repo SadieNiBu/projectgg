@@ -1,7 +1,7 @@
 import { Model, Schema, model, models } from "mongoose";
 import type { Session } from "~/lib/schemas/database";
 
-const sessionSchema = new Schema<Session>({
+const sessionSchema = new Schema({
   id: String,
   expires: Date,
   sessionToken: String,

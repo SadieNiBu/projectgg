@@ -1,8 +1,7 @@
 import { Schema, model, models, Model } from "mongoose";
-import { User } from "./User";
 import { type Review } from "~/lib/schemas/database";
 
-const reviewSchema = new Schema<Review>({
+const reviewSchema = new Schema({
   id: String,
   createdAt: Date,
   updatedAt: Date,
