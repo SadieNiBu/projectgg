@@ -6,7 +6,11 @@ import {
 import User from "~/lib/models/User";
 import { z } from "zod";
 import Review from "~/lib/models/Review";
-import { commentSchema, reviewSchema } from "~/lib/schemas/database";
+import {
+  commentSchema,
+  gamesOfTheWeekSchema,
+  reviewSchema,
+} from "~/lib/schemas/database";
 import Follow from "~/lib/models/Follow";
 import { TRPCError } from "@trpc/server";
 import Collection from "~/lib/models/Collection";
@@ -43,6 +47,22 @@ export const databaseRouter = createTRPCRouter({
       userId: { $in: friends },
     }).sort({ createdAt: -1 });
     return friendReviews.map((r) => r.toJSON());
+  }),
+  getAllReviews: publicProcedure
+    .input(z.object({ limit: z.number() }))
+    .query(async ({ input }) => {
+      const reviews = await Review.find()
+        .sort({ createdAt: -1 })
+        .limit(input.limit);
+      return reviews.map((r) => r.toJSON());
+    }),
+  getGamesOfTheWeek: publicProcedure.query(async () => {
+    const gotwAggregate = await Review.aggregate([
+      { $group: { _id: "$gameId", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 3 },
+    ]);
+    return gamesOfTheWeekSchema.array().parse(gotwAggregate);
   }),
   reviewGame: protectedProcedure
     .input(

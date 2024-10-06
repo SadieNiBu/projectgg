@@ -4,11 +4,18 @@ import { api, HydrateClient } from "~/trpc/server";
 import { getServerAuthSession } from "~/server/auth";
 import { Game } from "~/lib/schemas/igdb";
 import Review from "~/components/review";
+import { type Review as DbReview } from "~/lib/schemas/database";
 
 export default async function HomePage() {
   const session = await getServerAuthSession();
   let recentlyPlayed: Game[] = [];
+  let friendActivity: DbReview[] = [];
+  let allActivity: DbReview[] = [];
   const newReleases = await api.igdb.getNewReleases({ limit: 3 });
+  const gotwAggregate = await api.database.getGamesOfTheWeek();
+  const gamesOfTheWeek = await api.igdb.getGamesById(
+    gotwAggregate.map((game) => game._id),
+  );
   if (session?.user) {
     const recentlyReviewed = await api.database.getReviewsByUser(
       session.user.id,
@@ -19,8 +26,10 @@ export default async function HomePage() {
       );
       recentlyPlayed = await api.igdb.getGamesById(recentlyReviewedGames);
     }
+    friendActivity = await api.database.getFriendActivity();
+  } else {
+    allActivity = await api.database.getAllReviews({ limit: 3 });
   }
-  const friendActivity = await api.database.getFriendActivity();
 
   return (
     <HydrateClient>
@@ -48,14 +57,18 @@ export default async function HomePage() {
             <div className="friend_activity pl-[8px] pt-[7px] text-[24px] font-[600] leading-[28.8px] text-white">
               <p className="pt-[0px] text-center">New Releases</p>
               <div className="games grid grid-cols-3">
-                {newReleases.map((rp) => (
-                  <GameList key={rp.game.id} game={rp.game} />
+                {newReleases.map(({ game }) => (
+                  <GameList key={game.id} game={game} />
                 ))}
               </div>
             </div>
             <div className="new_releases pl-[8px] pt-[7px] text-[24px] font-[600] leading-[28.8px] text-white">
               <p className="pt-[0px] text-center">Games of the Week</p>
-              <div className="games grid grid-cols-3"></div>
+              <div className="games grid grid-cols-3">
+                {gamesOfTheWeek.map((game) => (
+                  <GameList key={game.id} game={game} />
+                ))}
+              </div>
             </div>
           </div>
           <div className="pt-[85px]">
@@ -93,9 +106,14 @@ export default async function HomePage() {
               Activity
             </p>
             <div className="grid grid-rows-3 pl-[80px]">
-              {friendActivity.map((review) => (
-                <Review key={review.id} data={review} />
-              ))}
+              {session &&
+                friendActivity.map((review) => (
+                  <Review key={review.id} data={review} />
+                ))}
+              {!session &&
+                allActivity.map((review) => (
+                  <Review key={review.id} data={review} />
+                ))}
             </div>
           </div>
         </div>

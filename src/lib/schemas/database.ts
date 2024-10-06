@@ -89,3 +89,8 @@ export const commentSchema = z.object({
 });
 
 export type Comment = z.infer<typeof commentSchema>;
+
+export const gamesOfTheWeekSchema = z.object({
+  _id: z.number(),
+  count: z.number(),
+});
