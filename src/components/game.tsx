@@ -47,8 +47,8 @@ const GameID = async (game: Game) =>
             </div>
 
             {/* Right column containing two sections */}
-            <div className="flex flex-col pl-10 ml-4 mr-4 pt-[0px]">
-                <div className='pb-20'>
+            <div id="test" className="flex flex-col h-full content-between pl-10 ml-4 mr-4 pt-[0px]">
+                <div className='pl-2'>
                     <p className="text-white font-[400] text-[32px] leading-[38.4px] ">{getGameName()}</p>
                     <p className="text-white font-[400] text-[20px] leading-[24px] pt-2">{getGameSummary()}</p>
                 </div>

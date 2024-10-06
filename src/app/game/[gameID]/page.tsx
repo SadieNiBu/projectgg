@@ -7,6 +7,7 @@ import PersonalReview from "~/components/personal_review";
 import { GetServerSideProps } from 'next';
 import { getServerAuthSession } from "~/server/auth";
 import { constructImageUrl } from "~/lib/utils";
+import NewReview from "~/components/new_review";
 interface GamePageProps {
     params: {
       gameID: string;
@@ -55,12 +56,13 @@ export default async function Page({ params }: GamePageProps)
                             <div className="pl-[40px] pt-[20px] text-[24px] font-[600] leading-[28.8px] text-white">
                                 <p className="pl-10">Reviews</p>
                                 <div>
-                                    {/* <Review /> */}
+                                    <NewReview />
                                     <PersonalReview />
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {Divider()}
                     <div></div>
                 </div>
                 <div className="h-[50px]" />

@@ -27,6 +27,9 @@ const Review = async ({ data }: { data: Review }) => {
         src={constructImageUrl(game.cover?.image_id ?? "", "1080p")}
       />
       <ProfilePic url={user.image} />
+      <div className="absolute bottom-[25px] left-[17px]">
+                <UpVote />
+            </div>
       <p className="absolute left-[65px] top-[5px] text-[16px] font-[600] leading-[22.4px] text-[hsla(0,0%,86%,1)]">
         {game.name}
       </p>
