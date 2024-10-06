@@ -33,9 +33,7 @@ export default async function GamePage() {
                 </div>
             </div>
           </div>
-          <div></div>
         </div>
-        <div className="h-[50px]" />
       </main>
     </HydrateClient>
   );
