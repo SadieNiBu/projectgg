@@ -9,11 +9,11 @@
 
     align-self: flex-end;
 
-    /* position: absolute; */
+    position: absolute;
     width: 200px;
     height: 100px;
-    /* left: 1135px;
-    top: 565px; */
+    left: 1050px;
+    top: 535px;
 
     background: rgba(0, 0, 0, 0.22);
     padding-left: 5px;
@@ -30,9 +30,13 @@
 
 .new_review_box {
     box-sizing: border-box;
-    width: 685px;
+    width: 675px;
     height: 82px;
     background: rgba(217, 217, 217, 0.14);
     border: 1px solid rgba(255, 255, 255, 0.28);
     border-radius: 10px;
+}
+
+.rating_star svg:hover {
+    filter: grayscale(100%) sepia(100%);
 }
