@@ -47,16 +47,6 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
-  events: {
-    createUser: async ({ user }) => {
-      const dbUser = await User.findById(user.id);
-      if (!dbUser) return;
-      dbUser.following = [];
-      dbUser.reviews = [];
-      dbUser.games = [];
-      await dbUser.save();
-    },
-  },
   adapter: MongoDBAdapter(database.connection.getClient()),
   providers: [
     DiscordProvider({
