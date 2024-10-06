@@ -5,8 +5,8 @@ export const reviewSchema = z.object({
   createdAt: z.string(),
   updatedAt: z.string(),
   content: z.string(),
-  user: z.string(),
-  game: z.number(),
+  userId: z.string(),
+  gameId: z.number(),
   rating: z.number(),
 });
 
@@ -18,7 +18,7 @@ const userSchema = z.object({
   email: z.string(),
   emailVerified: z.date().optional(),
   image: z.string().optional(),
-  games: z.array(z.number()),
+  gameIds: z.array(z.number()),
 });
 
 export type User = z.infer<typeof userSchema>;
@@ -57,7 +57,7 @@ export type VerificationToken = z.infer<typeof verificationTokenSchema>;
 
 export const followSchema = z.object({
   id: z.string(),
-  follower_id: z.string(),
-  following_id: z.string(),
+  follower: z.string(),
+  following: z.string(),
 });
 export type Follow = z.infer<typeof followSchema>;

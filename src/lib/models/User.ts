@@ -7,7 +7,7 @@ const userSchema = new Schema({
   email: String,
   emailVerified: Date,
   image: String,
-  games: [String],
+  gameIds: [String],
 });
 
 const User =

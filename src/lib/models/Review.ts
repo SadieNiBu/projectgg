@@ -6,11 +6,11 @@ const reviewSchema = new Schema({
   createdAt: Date,
   updatedAt: Date,
   content: String,
-  user: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  game: Number,
+  gameId: Number,
   rating: Number,
 });
 
