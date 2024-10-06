@@ -30,16 +30,17 @@ export const igdbRouter = createTRPCRouter({
       const games = await gamesResponse.json();
       return z.array(gamesSchema).parse(games);
     }),
-  getGameById: publicProcedure
-    .input(z.number())
+  getGamesById: publicProcedure
+    .input(z.number().array())
     .query(async ({ input, ctx }) => {
       const gameResponse = await igdbRequest(
         "games",
-        `fields name,cover.url,cover.image_id; where id = ${input};`,
+        `fields name,cover.url,cover.image_id,summary,rating, first_release_date; where id = (${input});`,
         ctx.igdbAccessToken,
       );
-      const game = await gameResponse.json();
-      return gamesSchema.parse(game.at(0));
+      const games = await gameResponse.json();
+      console.log(games);
+      return gamesSchema.array().parse(games);
     }),
   getNewReleases: publicProcedure
     .input(z.object({ limit: z.number() }))
@@ -47,10 +48,21 @@ export const igdbRouter = createTRPCRouter({
       const currentTimeInSeconds = Math.floor(Date.now() / 1000);
       const newReleasesResponse = await igdbRequest(
         "release_dates",
-        `fields game.name,date; limit ${input.limit}; where date < ${currentTimeInSeconds}; sort date desc;`,
+        `fields game.name,game.cover.image_id,game.cover.url,date; limit ${input.limit}; where date < ${currentTimeInSeconds}; sort date desc;`,
         ctx.igdbAccessToken,
       );
       const newReleases = await newReleasesResponse.json();
       return z.array(releaseDatesSchema).parse(newReleases);
+    }),
+  searchGames: publicProcedure
+    .input(z.object({ query: z.string(), limit: z.number() }))
+    .query(async ({ input, ctx }) => {
+      const searchResponse = await igdbRequest(
+        "games",
+        `fields name,cover.url,cover.image_id,summary,rating, first_release_date; search "${input.query}"; limit ${input.limit};`,
+        ctx.igdbAccessToken,
+      );
+      const games = await searchResponse.json();
+      return z.array(gamesSchema).parse(games);
     }),
 });

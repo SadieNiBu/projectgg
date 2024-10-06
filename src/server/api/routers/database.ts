@@ -6,7 +6,11 @@ import {
 import User from "~/lib/models/User";
 import { z } from "zod";
 import Review from "~/lib/models/Review";
-import { commentSchema, reviewSchema } from "~/lib/schemas/database";
+import {
+  commentSchema,
+  gamesOfTheWeekSchema,
+  reviewSchema,
+} from "~/lib/schemas/database";
 import Follow from "~/lib/models/Follow";
 import { TRPCError } from "@trpc/server";
 import Collection from "~/lib/models/Collection";
@@ -24,9 +28,42 @@ export const databaseRouter = createTRPCRouter({
   getReviewsByUser: publicProcedure
     .input(z.string())
     .query(async ({ input }) => {
-      const review = await Review.find({ user: input });
+      const review = await Review.find({ userId: input });
       return review.map((r) => r.toJSON());
     }),
+  getFriendActivity: protectedProcedure.query(async ({ ctx }) => {
+    const following = await Follow.find({ follower: ctx.session.user.id });
+    let friends: string[] = [];
+    for (const follow of following) {
+      const isAlsoFollowing = await Follow.findOne({
+        follower: follow.following,
+        following: ctx.session.user.id,
+      });
+      if (isAlsoFollowing) {
+        friends.push(follow.following);
+      }
+    }
+    const friendReviews = await Review.find({
+      userId: { $in: friends },
+    }).sort({ createdAt: -1 });
+    return friendReviews.map((r) => r.toJSON());
+  }),
+  getAllReviews: publicProcedure
+    .input(z.object({ limit: z.number() }))
+    .query(async ({ input }) => {
+      const reviews = await Review.find()
+        .sort({ createdAt: -1 })
+        .limit(input.limit);
+      return reviews.map((r) => r.toJSON());
+    }),
+  getGamesOfTheWeek: publicProcedure.query(async () => {
+    const gotwAggregate = await Review.aggregate([
+      { $group: { _id: "$gameId", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 3 },
+    ]);
+    return gamesOfTheWeekSchema.array().parse(gotwAggregate);
+  }),
   reviewGame: protectedProcedure
     .input(
       reviewSchema

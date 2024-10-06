@@ -1,16 +1,43 @@
 import "~/styles/home.css";
-import Review from "~/components/review";
 import GameList from "~/components/game_list";
-import { HydrateClient } from "~/trpc/server";
+import { api, HydrateClient } from "~/trpc/server";
+import { getServerAuthSession } from "~/server/auth";
+import { Game } from "~/lib/schemas/igdb";
+import Review from "~/components/review";
+import { type Review as DbReview } from "~/lib/schemas/database";
 
 export default async function HomePage() {
+  const session = await getServerAuthSession();
+  let recentlyPlayed: Game[] = [];
+  let friendActivity: DbReview[] = [];
+  let allActivity: DbReview[] = [];
+  const newReleases = await api.igdb.getNewReleases({ limit: 3 });
+  const gotwAggregate = await api.database.getGamesOfTheWeek();
+  const gamesOfTheWeek = await api.igdb.getGamesById(
+    gotwAggregate.map((game) => game._id),
+  );
+  if (session?.user) {
+    const recentlyReviewed = await api.database.getReviewsByUser(
+      session.user.id,
+    );
+    if (recentlyReviewed.length !== 0) {
+      const recentlyReviewedGames = recentlyReviewed.map(
+        (review) => review.gameId,
+      );
+      recentlyPlayed = await api.igdb.getGamesById(recentlyReviewedGames);
+      console.log(recentlyPlayed);
+    }
+    friendActivity = await api.database.getFriendActivity();
+  } else {
+    allActivity = await api.database.getAllReviews({ limit: 3 });
+  }
+
   return (
     <HydrateClient>
       <main>
         <div className="relative z-[-99] h-64 w-full">
           <img
-            src="https://media.discordapp.net/attachments/1290909039017857046/1292050593258536960/sea-of-thieves-4.png?ex=67025362&is=670101e2&hm=1b85e6fc2030fc0d7bd0ac0e932062e62724ee58e2a02289a39223353aed55e4&=&format=webp&quality=lossless&width=2068&height=1164"
-            alt="Sea of Thieves"
+            src="https://www.thexboxhub.com/wp-content/uploads/2018/04/Sea-of-Thieves-Final-Beta.jpg"
             className="h-full w-full object-cover"
           ></img>
           <div className="from-opacity-100 to-opacity-0 z-100 absolute inset-0 bg-gradient-to-b from-transparent to-[#292B43]"></div>
@@ -18,28 +45,29 @@ export default async function HomePage() {
 
         <div className="grid grid-cols-[480px_minmax(0px,_0fr)_900px]">
           <div className="grid grid-rows-3 pl-[100px]">
-            <div className="update_progress text-nowrap pl-[8px] pt-[8px] text-[24px] font-[600] leading-[28.8px] text-white">
-              Update Your Progress!
+            <div className="update_progress text-nowrap pt-[8px] text-center text-[24px] font-[600] leading-[28.8px] text-white">
+              Recently Played
               <div className="games grid grid-cols-3">
-                <GameList />
-                <GameList />
-                <GameList />
+                {recentlyPlayed.length !== 0 &&
+                  recentlyPlayed
+                    .slice(0, 3)
+                    .map((game) => <GameList key={game.id} game={game} />)}
               </div>
             </div>
             <div className="friend_activity pl-[8px] pt-[7px] text-[24px] font-[600] leading-[28.8px] text-white">
-              <p className="pl-[48px] pt-[0px]">Friend Activity</p>
+              <p className="pt-[0px] text-center">New Releases</p>
               <div className="games grid grid-cols-3">
-                <GameList />
-                <GameList />
-                <GameList />
+                {newReleases.map(({ game }) => (
+                  <GameList key={game.id} game={game} />
+                ))}
               </div>
             </div>
             <div className="new_releases pl-[8px] pt-[7px] text-[24px] font-[600] leading-[28.8px] text-white">
-              <p className="pl-[48px] pt-[0px]">New Releases</p>
+              <p className="pt-[0px] text-center">Games of the Week</p>
               <div className="games grid grid-cols-3">
-                <GameList />
-                <GameList />
-                <GameList />
+                {gamesOfTheWeek.map((game) => (
+                  <GameList key={game.id} game={game} />
+                ))}
               </div>
             </div>
           </div>
@@ -78,9 +106,14 @@ export default async function HomePage() {
               Activity
             </p>
             <div className="grid grid-rows-3 pl-[80px]">
-              <Review />
-              <Review />
-              <Review />
+              {session &&
+                friendActivity.map((review) => (
+                  <Review key={review.id} data={review} />
+                ))}
+              {!session &&
+                allActivity.map((review) => (
+                  <Review key={review.id} data={review} />
+                ))}
             </div>
           </div>
         </div>

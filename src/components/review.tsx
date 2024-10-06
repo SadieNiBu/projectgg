@@ -1,29 +1,46 @@
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { type Review } from "~/lib/schemas/database";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { api } from "~/trpc/server";
+import { constructImageUrl } from "~/lib/utils";
 import UpVote from "./upvote"
 
-export function ProfilePic() {
-    return (
-        <Avatar className="absolute top-[9px] left-[14px]">
-            <AvatarImage src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsMbmHUXuBiVl35tC2MHTK6myuEna6nvGSzQ&s" alt="@user"/>
-            <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-    )
+export function ProfilePic({ url }: { url?: string }) {
+  return (
+    <Avatar className="absolute left-[14px] top-[9px]">
+      <AvatarImage src={url} alt="@user" />
+      <AvatarFallback>CN</AvatarFallback>
+    </Avatar>
+  );
 }
 
-const Review = () => {
-    return (
-        <div className="review m-[22px] z-[-999] relative">
-            <img className="rounded-3xl h-[142px] w-[726px] object-cover brightness-50 opacity-90"
-            src="https://media.discordapp.net/attachments/1290909039017857046/1292050592595841126/thumb-1920-1319952.png?ex=67025362&is=670101e2&hm=569282500afcf6aaed8b6b537bfe7c1e04bee029c4ef8bfb732469215cde707b&=&format=webp&quality=lossless&width=2068&height=1164" / >
-            <ProfilePic />
-            <div className="absolute bottom-[25px] left-[17px]">
+const Review = async ({ data }: { data: Review }) => {
+  const user = await api.database.getUserById(data.userId.toString());
+  const game = (await api.igdb.getGamesById([data.gameId])).at(0);
+  if (!game) {
+    throw new Error("Game not found");
+  }
+
+  return (
+    <div className="review relative z-[-999] m-[22px]">
+      <img
+        className="h-[142px] w-[726px] rounded-3xl object-cover opacity-90 brightness-50"
+        src={constructImageUrl(game.cover?.image_id ?? "", "1080p")}
+      />
+      <ProfilePic url={user.image} />
+      <div className="absolute bottom-[25px] left-[17px]">
                 <UpVote />
             </div>
-            <p className="absolute top-[5px] left-[65px] font-[600] text-[16px] leading-[22.4px] text-[hsla(0,0%,86%,1)]">Game Name</p>
-            <p className="absolute top-[25px] left-[65px] font-[400] text-[16px] leading-[22.4px] text-[#B3B3B3]">User's Name</p>
-            <p className="absolute top-[55px] left-[65px] font-[400] text-[16px] leading-[22.4px] text-[#F1F1F1]">Text Review Description Placeholder Text Please Place Text Here Text Review<br />Description Placeholder Text Please Place Text Here Text Review Description<br />Placeholder Text </p>
-        </div>
-    )
-}
+      <p className="absolute left-[65px] top-[5px] text-[16px] font-[600] leading-[22.4px] text-[hsla(0,0%,86%,1)]">
+        {game.name}
+      </p>
+      <p className="absolute left-[65px] top-[25px] text-[16px] font-[400] leading-[22.4px] text-[#B3B3B3]">
+        {user.name}
+      </p>
+      <p className="absolute left-[65px] top-[55px] text-[16px] font-[400] leading-[22.4px] text-[#F1F1F1]">
+        {data.content}
+      </p>
+    </div>
+  );
+};
 
-export default Review
+export default Review;
