@@ -2,6 +2,7 @@ import { type Review } from "~/lib/schemas/database";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { api } from "~/trpc/server";
 import { constructImageUrl } from "~/lib/utils";
+import UpVote from "./upvote"
 
 export function ProfilePic({ url }: { url?: string }) {
   return (

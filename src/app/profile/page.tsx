@@ -16,11 +16,11 @@ export default async function ProfilePage() {
           ></img>
           <div className="from-opacity-100 to-opacity-0 z-100 absolute inset-0 bg-gradient-to-b from-transparent to-[#292B43]"></div>
         </div>
-        <p className="absolute pl-[152px] pt-[85px] text-[32px] font-[400] leading-[38.4px] text-white">
+        <p className="absolute pl-[152px] pt-[65px] text-[32px] font-[400] leading-[38.4px] text-white">
           Collections
         </p>
         <div className="grid grid-cols-[480px_minmax(0px,_0fr)_900px]">
-          <div className="grid grid-rows-3 pl-[100px] pt-[145px]">
+          <div className="grid grid-rows-3 pl-[100px] pt-[120px]">
             <div className="list1 text-nowrap pl-[8px] pt-[8px] text-[24px] font-[600] leading-[28.8px] text-white">
               <p className="pb-[2px] pl-[52px]">Cozy Games</p>
               <div className="games grid grid-cols-3">
@@ -49,7 +49,7 @@ export default async function ProfilePage() {
           <div className="pt-[85px]">
             <svg
               width="1"
-              height="705"
+              height="680"
               viewBox="0 0 1 705"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +57,7 @@ export default async function ProfilePage() {
               <line
                 x1="0.5"
                 x2="0.5"
-                y2="705"
+                y2="680"
                 stroke="url(#paint0_linear_32_882)"
               />
               <defs>
@@ -66,7 +66,7 @@ export default async function ProfilePage() {
                   x1="-0.5"
                   y1="0"
                   x2="-0.5"
-                  y2="705"
+                  y2="680"
                   gradientUnits="userSpaceOnUse"
                 >
                   <stop stop-color="#D267D2" />
@@ -81,7 +81,7 @@ export default async function ProfilePage() {
             <div className="grid grid-rows-3 pl-[40px]">
               <p className="review_text">Reviews</p>
             </div>
-            <div className="h-[500px] pl-[40px] pt-[200px]">
+            <div className="h-[500px] pl-[45px] pt-[110px]">
               <PersonalReview />
               <PersonalReview />
             </div>

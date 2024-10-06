@@ -45,7 +45,7 @@ export default async function HomePage() {
         </div>
 
         <div className="grid grid-cols-[480px_minmax(0px,_0fr)_900px]">
-          <div className="grid grid-rows-3 pl-[100px] pt-[145px]">
+          <div className="grid grid-rows-3 pl-[100px]">
             <div className="update_progress text-nowrap pt-[8px] text-center text-[24px] font-[600] leading-[28.8px] text-white">
               Recently Played
               <div className="games grid grid-cols-3">
@@ -72,18 +72,18 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-          <div className="pt-[85px]">
+          <div className="p-[0px]">
             <svg
               width="1"
-              height="705"
-              viewBox="0 0 1 705"
+              height="680"
+              viewBox="0 0 1 700"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
               <line
                 x1="0.5"
                 x2="0.5"
-                y2="705"
+                y2="680"
                 stroke="url(#paint0_linear_32_882)"
               />
               <defs>
@@ -92,7 +92,7 @@ export default async function HomePage() {
                   x1="-0.5"
                   y1="0"
                   x2="-0.5"
-                  y2="705"
+                  y2="680"
                   gradientUnits="userSpaceOnUse"
                 >
                   <stop stop-color="#D267D2" />
@@ -103,7 +103,7 @@ export default async function HomePage() {
             </svg>
           </div>
           <div>
-            <p className="pl-[120px] pt-[140px] text-[24px] font-[600] leading-[28.8px] text-white">
+            <p className="pl-[120px] pt-[px] text-[24px] font-[600] leading-[28.8px] text-white">
               Activity
             </p>
             <div className="grid grid-rows-3 pl-[80px]">

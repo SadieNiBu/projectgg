@@ -36,8 +36,8 @@
     box-sizing: border-box;
 
     position: absolute;
-    width: 671px;
-    height: 177px;
+    width: 690px;
+    height: 185px;
     left: 385px;
     top: 321px;
 
@@ -50,8 +50,8 @@
     position: absolute;
     width: 142px;
     height: 29px;
-    left: 550px;
-    top: 725px;
+    left: 555px;
+    top: 620px;
 
     font-style: normal;
     font-weight: 500;
@@ -59,4 +59,11 @@
     line-height: 120%;
 
     color: #F1F1F1;
+}
+
+.showcase_item img{
+    position: absolute;
+    object-fit: fill;
+    height: 75px;
+    width: 75px;
 }
