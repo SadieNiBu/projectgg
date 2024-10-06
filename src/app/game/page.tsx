@@ -1,6 +1,7 @@
 import "~/styles/game.css";
 import Game from "~/components/game";
 import Review from "~/components/review";
+import NewReview from '~/components/new_review';
 import Divider from "~/components/ui/divider";
 import { HydrateClient } from "~/trpc/server";
 import PersonalReview from "~/components/personal_review";
@@ -21,15 +22,14 @@ export default async function GamePage() {
           <div></div>
           {Divider()}
           <div>
-            <div className="grid grid-rows-2">
-              <Game />
-              <div className="pl-[40px] pt-[20px] text-[24px] font-[600] leading-[28.8px] text-white">
-                <p className="pl-10">Reviews</p>
-                <div>
+            <div className="grid grid-rows-3">
+                <Game />
+                <p className='pl-[300px] pt-[350px] absolute text-white font-[600] text-[24px] leading-[28.8px]'>Reviews</p>
+                <div className='pl-[70px] pt-[400px] absolute'>
+                  <NewReview />
                   <Review />
                   <PersonalReview />
                 </div>
-              </div>
             </div>
           </div>
           <div></div>
