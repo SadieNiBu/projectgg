@@ -62,7 +62,6 @@ export default async function Page({ params }: GamePageProps) {
                   <form action={submitReview}>
                     <NewReview />
                   </form>
-                  <PersonalReview />
                 </div>
               </div>
             </div>
